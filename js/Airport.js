@@ -1,6 +1,7 @@
 var Airport = function() {
   this.capacity = 3;
   this.planeCount = [];
+  this.isStormy = false;
 };
 
 Airport.prototype.parkPlane = function(plane) {
