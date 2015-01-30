@@ -4,7 +4,7 @@ describe('Airport', function() {
 
   beforeEach(function() {
     airport = new Airport;
-    plane = jasmine.createSpyObj('plane', ['land']);
+    plane = jasmine.createSpyObj('plane', ['land', 'takeoff']);
   });
 
   it('should have a plane count of zero by default', function() {
@@ -21,10 +21,20 @@ describe('Airport', function() {
   });
 
   it('should not park a plane if it is full', function() {
-    airport.parkPlane();
-    airport.parkPlane();
-    airport.parkPlane();
-    expect(function() { airport.parkPlane() }).toThrow(new Error ('All the parking spaces are taken!'));
+    airport.parkPlane(plane);
+    airport.parkPlane(plane);
+    airport.parkPlane(plane);
+    expect(function() { airport.parkPlane(plane) }).toThrow(new Error ('All the parking spaces are taken!'));
+  });
+
+  it('should be able to dispatch a plane', function() {
+    airport.parkPlane(plane);
+    airport.dispatchPlane(plane);
+    expect(airport.planeCount.length).toEqual(0);
+  });
+
+  it('should not dispatch a plane if it is empty', function() {
+    expect(function() { airport.dispatchPlane(plane) }).toThrow(new Error ('There are no planes to dispatch'));
   });
 
 });
